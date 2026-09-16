@@ -1,0 +1,45 @@
+# Virtualenvs -- never commit an interpreter or installed packages
+venv/
+.venv/
+env/
+ENV/
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Proof sessions are local state: they contain the user's own working proofs
+sessions/
+*.session.json
+
+# Config backups written by tools/install.py
+*.json.bak
+*.bak
+
+# Generated documentation that is derived from code
+# (regenerate with tools/generate_references.py and tools/generate_examples.py
+#  -- these are committed on purpose, so the lines below are only here to make
+#  the intent explicit; do not uncomment unless you stop committing them)
+# skills/math-rigor/references/inference-rules.md
+# skills/math-rigor/references/worked-examples.md
+
+# Editors and OS noise
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local scratch
+*.log
+scratch/
+tmp/

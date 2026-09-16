@@ -1,0 +1,9 @@
+# Direct dependencies of the math-rigor MCP server.
+# Install with:  <venv>\Scripts\python.exe -m pip install -r requirements.txt
+#
+# mcp 2.x renamed FastMCP to MCPServer (mcp.server.mcpserver).  The server code
+# targets that 2.x API, so do not pin mcp<2 without editing the imports.
+mcp==2.2.0
+sympy==1.14.0
+z3-solver==5.1.0.0
+mpmath==1.3.0
