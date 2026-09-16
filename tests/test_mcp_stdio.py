@@ -18,10 +18,6 @@ HERE = Path(__file__).resolve().parent
 PY = sys.executable
 SRV = str(HERE.parent / "server" / "math_rigor_server.py")
 
-
-PY = r"C:\Users\cloud_user\.zcode\math-rigor-mcp\venv\Scripts\python.exe"
-SRV = r"C:\Users\cloud_user\.zcode\math-rigor-mcp\server\math_rigor_server.py"
-
 TMP = tempfile.mkdtemp(prefix="mathrigor-mcp-")
 os.environ["MATH_RIGOR_HOME"] = TMP
 
