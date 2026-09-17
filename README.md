@@ -34,9 +34,18 @@
 [![tools](https://img.shields.io/badge/tools-23-9cf.svg)]()
 [![tests](https://img.shields.io/badge/tests-8%20modules%20·%20275%20assertions-success.svg)]()
 [![verdicts](https://img.shields.io/badge/verdicts-proven%20%2F%20refuted%20%2F%20inconclusive-8A2BE2.svg)]()
-[![CI](https://img.shields.io/badge/CI-3%20OS%20%C3%97%202%20Python-0b0b0f.svg)]()
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-yellow.svg)]()
 [![for ZCode](https://img.shields.io/badge/for-ZCode-0b0b0f.svg)]()
+<br>
+<!-- 动态徽章：仓库公开后实时更新 -->
+[![GitHub stars](https://img.shields.io/github/stars/bauerelizabeth07139/math-rigor.svg?color=gold)]()
+[![GitHub forks](https://img.shields.io/github/forks/bauerelizabeth07139/math-rigor.svg)]()
+[![GitHub watchers](https://img.shields.io/github/watchers/bauerelizabeth07139/math-rigor.svg)]()
+[![GitHub issues](https://img.shields.io/github/issues/bauerelizabeth07139/math-rigor.svg)]()
+[![GitHub release](https://img.shields.io/github/v/release/bauerelizabeth07139/math-rigor.svg?color=8A2BE2)]()
+[![GitHub last commit](https://img.shields.io/github/last-commit/bauerelizabeth07139/math-rigor.svg?color=blue)]()
+[![GitHub repo size](https://img.shields.io/github/repo-size/bauerelizabeth07139/math-rigor.svg?color=lightgrey)]()
+[![CI status](https://img.shields.io/github/actions/workflow/status/bauerelizabeth07139/math-rigor/tests.yml.svg?branch=main)]()
 
 **快手上手**：<kbd>/prove</kbd> 机器证题 &nbsp;·&nbsp; <kbd>/audit-proof</kbd> 审计证明
 
