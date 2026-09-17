@@ -1,5 +1,22 @@
 <div align="center">
 
+```text
+██     ██    ███    ████████ ██     ██         ████████  ████  ██████
+███   ███   ██ ██      ██    ██     ██         ██     ██  ██  ██    ██
+████ ████  ██   ██     ██    ██     ██         ██     ██  ██  ██
+██ ███ ██ ██     ██    ██    █████████ ███████ ████████   ██  ██   ████
+██     ██ █████████    ██    ██     ██         ██   ██    ██  ██    ██
+██     ██ ██     ██    ██    ██     ██         ██    ██   ██  ██    ██
+██     ██ ██     ██    ██    ██     ██         ██     ██ ████  ██████
+ ███████  ████████
+██     ██ ██     ██
+██     ██ ██     ██
+██     ██ ████████
+██     ██ ██   ██
+██     ██ ██    ██
+ ███████  ██     ██
+```
+
 # ∷ math-rigor ∷
 
 **严格 · 可审计 · 数学证明工具链，装在 ZCode 上**
@@ -16,17 +33,38 @@
 [![z3](https://img.shields.io/badge/z3-5.1-E23237.svg)]()
 [![tools](https://img.shields.io/badge/tools-23-9cf.svg)]()
 [![tests](https://img.shields.io/badge/tests-8%20modules%20·%20275%20assertions-success.svg)]()
+[![verdicts](https://img.shields.io/badge/verdicts-proven%20%2F%20refuted%20%2F%20inconclusive-8A2BE2.svg)]()
+[![CI](https://img.shields.io/badge/CI-3%20OS%20%C3%97%202%20Python-0b0b0f.svg)]()
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-yellow.svg)]()
 [![for ZCode](https://img.shields.io/badge/for-ZCode-0b0b0f.svg)]()
+
+**快手上手**：<kbd>/prove</kbd> 机器证题 &nbsp;·&nbsp; <kbd>/audit-proof</kbd> 审计证明
+
+**23** MCP 工具 · **22** 推理规则 · **8** 测试模块 · **275** 断言 · **3 OS × 2 Python** CI
 
 </div>
 
 ---
 
-## 为什么需要它
+## 📖 目录
 
-大模型数学推理最危险的一刻，是它把**「没找到反例」** 说成 **「成立」**，把**「超时」
-** 说成 **「已验证」**。math-rigor 的全部设计围绕一件事：
+- [🎯 为什么需要它](#-为什么需要它)
+- [🧭 六阶段工作流](#-六阶段工作流)
+- [🔀 判定状态机](#-判定状态机)
+- [✨ 特性](#-特性)
+- [🚀 快速开始](#-快速开始)
+- [💻 效果演示](#-效果演示)
+- [🧰 工具总表](#-工具总表)
+- [📐 记法约定](#-记法约定)
+- [🧬 架构](#-架构)
+- [🧪 测试](#-测试)
+- [🚧 已知边界](#-已知边界)
+
+---
+
+## 🎯 为什么需要它
+
+大模型数学推理最危险的一刻，是它把**「没找到反例」**说成**「成立」**，把**「超时」**说成**「已验证」**。math-rigor 的全部设计围绕一件事：
 
 > **判定词汇只有三种，且三者永不混淆：**
 >
@@ -48,7 +86,7 @@
 
 ---
 
-## 六阶段工作流
+## 🧭 六阶段工作流
 
 ```mermaid
 flowchart TD
@@ -67,7 +105,34 @@ flowchart TD
 
 ---
 
-## 特性
+## 🔀 判定状态机
+
+每一步、每一次审计，判定都只会在下面这台机器里流转，永远不许含糊：
+
+```mermaid
+stateDiagram-v2
+    [*] --> Formalize: proof_start 形式化
+    Formalize --> Prove: proof_add_step 逐步证明
+    Prove --> Decide: 每步立即机检
+    Decide --> proven: 否定式被证不可满足
+    Decide --> refuted: 给出具体反例
+    Decide --> inconclusive: 求解器未决
+    proven --> Audit: proof_validate 机器审计
+    inconclusive --> Audit: 逐条披露未检查步骤
+    refuted --> Prove: 修复命题
+    Audit --> verified: 每一步都被机器检查
+    Audit --> sound_with_gaps: 有缺口，已逐条披露
+    Audit --> flawed: 存在被推翻的步骤
+    sound_with_gaps --> Prove: 补全缺口
+    flawed --> Prove: 修复或重做
+    verified --> [*]
+```
+
+> 🟢 `verified` 才算数；🟡 `sound_with_gaps` 是「有缺口的证明」，不是「已证明」；🔴 `flawed` 必须修复。**`inconclusive` 永远不等于证明。**
+
+---
+
+## ✨ 特性
 
 **推理规则做语法 + 语义双重检查**
 
@@ -100,7 +165,7 @@ SMT 对非线性整数 + 取模常返回 unknown。两处补强：
 
 ---
 
-## 快速开始
+## 🚀 快速开始
 
 需要 Python 3.10+（无需 Node，无需 git）。
 
@@ -123,16 +188,14 @@ cd math-rigor
 
 装完**新开一个 ZCode 会话**，然后：
 
-```
-/prove 对每个整数 n，n^3 - n 能被 6 整除
-/audit-proof <粘贴一段别人的证明>
-```
+- <kbd>/prove</kbd> `对每个整数 n，n^3 - n 能被 6 整除`
+- <kbd>/audit-proof</kbd> `粘贴一段别人的证明`
 
 也可以直接提问——skill 会在涉及证明的任务上自动加载。
 
 ---
 
-## 效果演示
+## 💻 效果演示
 
 ```text
 $ /prove 对任意正实数 x，x + 1/x >= 2
@@ -164,7 +227,7 @@ $ proof_add_step(statement="(a+b)^2 = a^2 + b^2", rule="algebra", from_ids=["g1"
 
 ---
 
-## 工具总表
+## 🧰 工具总表
 
 ### 🧩 证明会话（工作流骨架）
 
@@ -206,8 +269,9 @@ $ proof_add_step(statement="(a+b)^2 = a^2 + b^2", rule="algebra", from_ids=["g1"
 
 ---
 
-<details>
-<summary><b>📐 记法约定</b>（容易踩的坑，点开看）</summary>
+## 📐 记法约定
+
+容易踩的坑，都在这里说清楚：
 
 - **单个 `|` 按数学惯例消解**：两侧是命题（大写字母开头，`P | Q`）当析取；
   两侧是数（`6 | n`、`n | m`）当整除。拿不准就用 `||` 表析取、`divides(6,n)` 表整除。
@@ -218,10 +282,10 @@ $ proof_add_step(statement="(a+b)^2 = a^2 + b^2", rule="algebra", from_ids=["g1"
   SMT 层没有精确超越常数，遇到会明确报错而不是静默处理。
 
 完整约定见 [`skills/math-rigor/references/notation.md`](skills/math-rigor/references/notation.md)。
-</details>
 
-<details>
-<summary><b>🏗️ 架构</b></summary>
+---
+
+## 🧬 架构
 
 ```
 server/math_rigor_server.py   23 个 MCP 工具的注册与 JSON 包装
@@ -241,10 +305,10 @@ tools/                        安装、冒烟测试、安装自检、文档生�
 
 `skills/math-rigor/references/` 中的 `inference-rules.md` 与 `worked-examples.md`
 是**从代码与真实工具返回生成**的——改了工具行为就重新生成，文档永不与实现脱节。
-</details>
 
-<details>
-<summary><b>🧪 测试</b></summary>
+---
+
+## 🧪 测试
 
 ```bash
 venv/bin/python tests/run_all.py          # 8 个模块，约 275 条断言
@@ -254,11 +318,10 @@ venv/bin/python tools/install_check.py    # 按 ZCode 的加载规则校验 skil
 
 CI（`.github/workflows/tests.yml`）在 **3 个系统 × 2 个 Python 版本** 上跑冒烟测试 +
 完整测试套件。当前 `main` 全绿。
-</details>
 
 ---
 
-## 已知边界
+## 🚧 已知边界
 
 - SMT 无法判定的命题（符号幂、超越函数、部分高阶非线性）返回 `inconclusive`。
   对策是拆成可判定的引理，其余作为 `unchecked` 显式披露。
