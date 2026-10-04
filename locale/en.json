@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "math-rigor",
+    "description": "Auditable mathematical proving for DeepSeek Harness: 23 machine-checking MCP tools, a workflow skill and /prove + /audit-proof. proven, refuted and inconclusive are never conflated, and unproven steps are reported instead of hidden."
+  }
+}

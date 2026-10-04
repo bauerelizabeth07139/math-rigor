@@ -82,7 +82,13 @@ def home_directory() -> Path:
     base = os.environ.get("MATH_RIGOR_HOME")
     if base:
         return Path(base)
-    return Path.home() / ".zcode" / "math-rigor-mcp"
+    # Every integration passes MATH_RIGOR_HOME explicitly; this is only the
+    # standalone fallback, and the harness home is the least surprising place
+    # for it to land.
+    dsh_home = os.environ.get("DSH_HOME")
+    if dsh_home:
+        return Path(dsh_home) / "math-rigor"
+    return Path.home() / ".dsh" / "math-rigor"
 
 
 def sessions_directory() -> Path:

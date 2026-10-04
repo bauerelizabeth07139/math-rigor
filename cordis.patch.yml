@@ -1,0 +1,4 @@
+# Adds the math-rigor MCP bridge and bundled skill to a DSH profile.
+- insert:
+    - id: dsh-math-rigor
+      name: dsh-math-rigor

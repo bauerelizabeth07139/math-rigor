@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "math-rigor 数学严格证明",
+    "description": "给 DeepSeek Harness 的可审计数学证明:23 个机器校验 MCP 工具 + 工作流技能 + /prove、/audit-proof 两个命令。proven / refuted / inconclusive 绝不混淆,未证明的步骤如实报告,不会藏起来。"
+  }
+}

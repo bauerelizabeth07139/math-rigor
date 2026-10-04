@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="math-rigor — auditable mathematical proving">
+  <title>math-rigor — auditable mathematical proving</title>
+  <rect width="128" height="128" rx="26" fill="#0b1220"/>
+  <circle cx="64" cy="64" r="42" fill="none" stroke="#22d3ee" stroke-width="3" opacity="0.45"/>
+  <g fill="#22d3ee">
+    <circle cx="44" cy="41" r="6"/>
+    <circle cx="44" cy="64" r="6"/>
+    <circle cx="44" cy="87" r="6"/>
+  </g>
+  <path d="M63 66l11 13 22-29" fill="none" stroke="#4ade80" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M36 106h56" stroke="#334155" stroke-width="4" stroke-linecap="round"/>
+</svg>

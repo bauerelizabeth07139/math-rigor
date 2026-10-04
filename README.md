@@ -1,351 +1,250 @@
 <div align="center">
 
-```text
-██     ██    ███    ████████ ██     ██         ████████  ████  ██████
-███   ███   ██ ██      ██    ██     ██         ██     ██  ██  ██    ██
-████ ████  ██   ██     ██    ██     ██         ██     ██  ██  ██
-██ ███ ██ ██     ██    ██    █████████ ███████ ████████   ██  ██   ████
-██     ██ █████████    ██    ██     ██         ██   ██    ██  ██    ██
-██     ██ ██     ██    ██    ██     ██         ██    ██   ██  ██    ██
-██     ██ ██     ██    ██    ██     ██         ██     ██ ████  ██████
- ███████  ████████
-██     ██ ██     ██
-██     ██ ██     ██
-██     ██ ████████
-██     ██ ██   ██
-██     ██ ██    ██
- ███████  ██     ██
-```
-
 # ∷ math-rigor ∷
 
-**严格 · 可审计 · 数学证明工具链，装在 ZCode 上**
+**可审计的数学证明工具链，作为 DSH 插件运行：本地 stdio MCP 服务器（23 个工具）+ 流程 skill + 两个 slash 命令**
+
+*Auditable mathematical proving for DeepSeek Harness: a local stdio MCP server (23 tools), a bundled workflow skill, and two slash commands.*
 
 > `∀ ε > 0, ∃ δ > 0, s.t. |x − a| < δ ⟹ |f(x) − L| < ε`
 
-一个本地 **MCP 服务器（23 个工具）** + 一个**流程 skill** + 两个 slash 命令，
-让数学论证的每一步都能被机器检查——并且**如实报告哪些部分被验证过，哪些没有**。
-
-[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)]()
-[![MCP](https://img.shields.io/badge/MCP-2.x-8A2BE2.svg)]()
-[![sympy](https://img.shields.io/badge/sympy-1.14-3776AB.svg)]()
-[![z3](https://img.shields.io/badge/z3-5.1-E23237.svg)]()
-[![tools](https://img.shields.io/badge/tools-23-9cf.svg)]()
-[![tests](https://img.shields.io/badge/tests-8%20modules%20·%20275%20assertions-success.svg)]()
-[![verdicts](https://img.shields.io/badge/verdicts-proven%20%2F%20refuted%20%2F%20inconclusive-8A2BE2.svg)]()
-[![PRs welcome](https://img.shields.io/badge/PRs-welcome-yellow.svg)]()
-[![for ZCode](https://img.shields.io/badge/for-ZCode-0b0b0f.svg)]()
-<br>
-<!-- 动态徽章：仓库公开后实时更新 -->
-[![GitHub stars](https://img.shields.io/github/stars/bauerelizabeth07139/math-rigor.svg?color=gold)]()
-[![GitHub forks](https://img.shields.io/github/forks/bauerelizabeth07139/math-rigor.svg)]()
-[![GitHub watchers](https://img.shields.io/github/watchers/bauerelizabeth07139/math-rigor.svg)]()
-[![GitHub issues](https://img.shields.io/github/issues/bauerelizabeth07139/math-rigor.svg)]()
-[![GitHub release](https://img.shields.io/github/v/release/bauerelizabeth07139/math-rigor.svg?color=8A2BE2)]()
-[![GitHub last commit](https://img.shields.io/github/last-commit/bauerelizabeth07139/math-rigor.svg?color=blue)]()
-[![GitHub repo size](https://img.shields.io/github/repo-size/bauerelizabeth07139/math-rigor.svg?color=lightgrey)]()
-[![CI status](https://img.shields.io/github/actions/workflow/status/bauerelizabeth07139/math-rigor/tests.yml.svg?branch=main)]()
-
-**快手上手**：<kbd>/prove</kbd> 机器证题 &nbsp;·&nbsp; <kbd>/audit-proof</kbd> 审计证明
-
-**23** MCP 工具 · **22** 推理规则 · **8** 测试模块 · **275** 断言 · **3 OS × 2 Python** CI
+[![GitHub stars](https://img.shields.io/github/stars/bauerelizabeth07139/math-rigor.svg?color=gold)]() [![GitHub forks](https://img.shields.io/github/forks/bauerelizabeth07139/math-rigor.svg)]() [![GitHub issues](https://img.shields.io/github/issues/bauerelizabeth07139/math-rigor.svg)]()
+[![GitHub release](https://img.shields.io/github/v/release/bauerelizabeth07139/math-rigor.svg?color=8A2BE2)]() [![CI status](https://img.shields.io/github/actions/workflow/status/bauerelizabeth07139/math-rigor/tests.yml.svg?branch=main)]()
+[![version](https://img.shields.io/badge/plugin-0.2.0-8A2BE2.svg)]() [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)]() [![MCP](https://img.shields.io/badge/MCP-2.x-8A2BE2.svg)]() [![tools](https://img.shields.io/badge/MCP%20tools-23-9cf.svg)]()
 
 </div>
 
 ---
 
-## 📖 目录
+## 这是什么
 
-- [🎯 为什么需要它](#-为什么需要它)
-- [🧭 六阶段工作流](#-六阶段工作流)
-- [🔀 判定状态机](#-判定状态机)
-- [✨ 特性](#-特性)
-- [🚀 快速开始](#-快速开始)
-- [💻 效果演示](#-效果演示)
-- [🧰 工具总表](#-工具总表)
-- [📐 记法约定](#-记法约定)
-- [🧬 架构](#-架构)
-- [🧪 测试](#-测试)
-- [🚧 已知边界](#-已知边界)
+`dsh-math-rigor` 是一个 Cordis host plugin（DSH 0.2.x）。装进 profile 后它做三件事：
 
----
+1. 准备并使用隔离的 Python 3.10+ 虚拟环境，以 **stdio** 启动 `server/math_rigor_server.py`，经 `@deepseek-ai/dsh-mcp-client` 接入 DSH；服务器注册的 23 个工具在 agent 侧显示为 `mcp__math_rigor__<tool>`（如 `mcp__math_rigor__proof_start`）。
+2. 注册 bundled skill `math-rigor`（`source: 'bundled'`，模型与用户均可触发）。
+3. 注册 slash 命令 `/prove` 与 `/audit-proof`。
 
-## 🎯 为什么需要它
+设计上只坚持一件事：判定词汇不混用。
 
-大模型数学推理最危险的一刻，是它把**「没找到反例」**说成**「成立」**，把**「超时」**说成**「已验证」**。math-rigor 的全部设计围绕一件事：
-
-> **判定词汇只有三种，且三者永不混淆：**
->
-> | 判定 | 含义 | 能不能当结论用 |
-> |---|---|---|
-> | ✅ `proven` | 否定式被证明不可满足 | **能** |
-> | ❌ `refuted` | 给出了具体反例 | 不能——命题是假的 |
-> | ⚠️ `inconclusive` | 求解器没决定，且没找到反例 | **不能——这不是证明** |
-
-证明审计在此基础上再加一档区分：
-
-| 审计判定 | 含义 |
+| 判定 | 含义 |
 |---|---|
-| 🟢 `verified` | 每一步都被机器检查，目标已导出 |
-| 🟡 `sound_with_gaps` | 结构成立、无被推翻项，但有 N 步依赖人工论证 |
-| 🔴 `flawed` | 有被推翻/无效的步骤、未解除假设、未证明引理，或目标未导出 |
-
-🟡 这一档是**刻意存在**的：它让「有缺口的证明」无法被含糊成「已证明」。
-
----
-
-## 🧭 六阶段工作流
-
-```mermaid
-flowchart TD
-    A["① 形式化<br/>proof_start"] --> B["② 策略<br/>strategy"]
-    B --> C["③ 引理分解<br/>proof_add_lemma"]
-    C --> D["④ 逐步证明<br/>proof_add_step<br/>（每步立即机检）"]
-    D --> E["⑤ 机器审计<br/>proof_validate"]
-    E -->|"flawed<br/>修复/重做"| D
-    E -->|"sound_with_gaps<br/>逐条披露未检查步骤"| F["⑥ 如实报告<br/>proof_export"]
-    E -->|"verified"| F
-```
-
-**不可违背的规则**：每一步必须引用恰好一条规则与它用到的步骤 id；
-禁止循环与前向引用；每条临时假设必须被解除；每个引理必须被证明或显式披露；
-`inconclusive` 永远不等于证明。
+| `proven` | 否定式被证明不可满足，可以当结论用 |
+| `refuted` | 给出了具体反例，命题为假 |
+| `inconclusive` | 求解器未决定且未找到反例，**不是证明** |
+| `verified` | 审计：每一步都被机器检查，目标已导出 |
+| `sound_with_gaps` | 审计：结构成立、无被推翻项，但有未检查步骤（逐条列出） |
+| `flawed` | 审计：有被推翻/无效步骤、未解除假设、未证明引理，或目标未导出 |
 
 ---
 
-## 🔀 判定状态机
+## 安装
 
-每一步、每一次审计，判定都只会在下面这台机器里流转，永远不许含糊：
+**Desktop 应用** —— **Plugins → Add plugin**，填入 `https://github.com/bauerelizabeth07139/math-rigor`，装好后打开新 bundle 的开关。Desktop 启动的是保留 profile `desktop`。
 
-```mermaid
-stateDiagram-v2
-    [*] --> Formalize: proof_start 形式化
-    Formalize --> Prove: proof_add_step 逐步证明
-    Prove --> Decide: 每步立即机检
-    Decide --> proven: 否定式被证不可满足
-    Decide --> refuted: 给出具体反例
-    Decide --> inconclusive: 求解器未决
-    proven --> Audit: proof_validate 机器审计
-    inconclusive --> Audit: 逐条披露未检查步骤
-    refuted --> Prove: 修复命题
-    Audit --> verified: 每一步都被机器检查
-    Audit --> sound_with_gaps: 有缺口，已逐条披露
-    Audit --> flawed: 存在被推翻的步骤
-    sound_with_gaps --> Prove: 补全缺口
-    flawed --> Prove: 修复或重做
-    verified --> [*]
-```
-
-> 🟢 `verified` 才算数；🟡 `sound_with_gaps` 是「有缺口的证明」，不是「已证明」；🔴 `flawed` 必须修复。**`inconclusive` 永远不等于证明。**
-
----
-
-## ✨ 特性
-
-**推理规则做语法 + 语义双重检查**
-
-22 条推理规则（`modus_ponens`、`reductio`、`universal_instantiation`…）每条先验形状，
-再用 z3 验语义。`universal_generalization` / `existential_instantiation` 语义上并不自足，
-工具会明确标注并改验新鲜性条件，而不是假装做了语义验证。
-
-**代数步骤会被重新推导**
-
-`algebra` 步骤不是记下来就算过——审计拿它引用的前提重新推导；推不出来判 `refuted` 并附反例。
-
-**让 z3 真能证出数论命题**
-
-SMT 对非线性整数 + 取模常返回 unknown。两处补强：
-
-- **残数分情形** —— `∀n. P(n)` 拆成 `n = m·q + r`（`r` 取遍 `0..m−1`）逐个反证；
-- **存在式改写** —— `∃k ∈ Z: A = c·k + d` 自动改写成 `c | (A − d)`。
-
-于是 `6 | n³−n`、`30 | n⁵−n`、乃至自然写法 `n³−n = 6k` 都能证出。
-
-**定义域从不偷偷决定**
-
-未声明的符号做类型推断（含取模 ⇒ 整数；含小数 ⇒ 实数；否则实数），
-结果永远出现在返回的 `sorts_used` 里。
-
-**诚实的不判定**
-
-`log(exp(x)) = x`、`2^n > n` 这类命题返回 `inconclusive` 并说明原因，
-而不是给一个看起来像证明的输出。
-
----
-
-## 🚀 快速开始
-
-需要 Python 3.10+（无需 Node，无需 git）。
-
-```powershell
-# Windows
-git clone https://github.com/bauerelizabeth07139/math-rigor.git
-cd math-rigor
-powershell -ExecutionPolicy Bypass -File .\install.ps1
-```
+**CLI** —— `--profile` 换成你实际启动的那个 profile；装进别的 profile，当前会话不会加载它。
 
 ```bash
-# macOS / Linux
-git clone https://github.com/bauerelizabeth07139/math-rigor.git
-cd math-rigor
-./install.sh
+dsh plugin --profile web add bauerelizabeth07139/math-rigor
 ```
 
-安装脚本会：建虚拟环境 → 装依赖（sympy、z3，约 60 MB）→ **先证明服务器能起来**
-→ 注册 MCP → 装 skill 与命令。任一步失败都不会改动你的配置。
-
-装完**新开一个 ZCode 会话**，然后：
-
-- <kbd>/prove</kbd> `对每个整数 n，n^3 - n 能被 6 整除`
-- <kbd>/audit-proof</kbd> `粘贴一段别人的证明`
-
-也可以直接提问——skill 会在涉及证明的任务上自动加载。
-
----
-
-## 💻 效果演示
-
-```text
-$ /prove 对任意正实数 x，x + 1/x >= 2
-
-① 形式化    goal = "forall x in R: x > 0 -> x + 1/x >= 2", variables = {"x": "real"}
-② 策略      直接证明（单个不等式，SMT 一次判定）
-④ 逐步证明  verify_inequality(lhs="x + 1/x", relation=">=", rhs="2",
-                   variables={"x": "real"}, constraints=["x > 0"])
-            → status: proven   method: refuted the negated goal with z3
-            proof_add_step(statement="x + 1/x >= 2", rule="machine_verified", ...)
-            → verdict: verified
-⑤ 审计      proof_validate → verdict: verified, machine_coverage 1/1 (100%)
-⑥ 报告      "已机器验证：z3 反证否定式不可满足。无未检查步骤。"
-```
-
-```text
-$ find_counterexample(claim="forall n in R: n^2 >= n")
-→ verdict: refuted   counterexample: {"n": "1/2"}
-```
-
-```text
-$ proof_add_step(statement="(a+b)^2 = a^2 + b^2", rule="algebra", from_ids=["g1"])
-→ verdict: refuted
-  detail: this algebra step does not follow from the cited premises;
-          counterexample: {'a': '-1', 'b': '-1'}
-```
-
-审计抓错步骤时的输出就是这样——带反例，不和你商量。
-
----
-
-## 🧰 工具总表
-
-### 🧩 证明会话（工作流骨架）
-
-| 工具 | 用途 |
-|---|---|
-| `proof_start` | 开一个证明会话：登记问题、精确目标、每个符号的定义域 |
-| `proof_add_given` | 登记题面给定的前提 |
-| `proof_add_assumption` | 登记临时假设（必须被解除） |
-| `proof_add_lemma` | 登记引理义务 |
-| `proof_add_step` | 加一步，**立即机检**并返回 verdict |
-| `proof_validate` | 审计整个证明，给出三级判定与缺口清单 |
-| `proof_status` | 查看会话（空参则列出全部） |
-| `proof_export` | 导出 Markdown / LaTeX / JSON |
-| `proof_workflow` | 返回六阶段流程与判定词汇表 |
-
-### 🧠 逻辑
-
-| 工具 | 用途 |
-|---|---|
-| `logic_check_step` | 单步推理是否合规（形状 + 语义） |
-| `logic_entails` | 前提能否推出结论 |
-| `logic_truth_table` | 纯命题逻辑完全枚举 |
-| `logic_rules` | 22 条规则 + 19 种非逻辑理由的目录 |
-
-### 🧮 数学
-
-| 工具 | 用途 |
-|---|---|
-| `verify_identity` | 两个表达式是否同一个函数 |
-| `verify_inequality` | 不等式在整个定义域是否成立 |
-| `verify_forall` | 任何带量词的命题（整除、奇偶、界、逻辑） |
-| `verify_induction` | 归纳法：基例 + `k ≥ start & P(k) → P(k+1)` |
-| `verify_limit` | 极限值（支持单侧与无穷） |
-| `find_counterexample` | 找反例（先问 SMT，再穷举，再采样） |
-| `symbolic_eval` | 化简/展开/因式分解/求导/积分/求和闭形式/解方程/级数/极限 |
-| `symbolic_numeric` | 高精度数值 + 是否精确有理数 |
-| `number_theory` | 整除、素数、gcd、贝祖系数、CRT、原根、勒让德符号等 |
-| `expr_normalise` | 规范化成 LaTeX / 纯文本 / sympy 形式 |
-
----
-
-## 📐 记法约定
-
-容易踩的坑，都在这里说清楚：
-
-- **单个 `|` 按数学惯例消解**：两侧是命题（大写字母开头，`P | Q`）当析取；
-  两侧是数（`6 | n`、`n | m`）当整除。拿不准就用 `||` 表析取、`divides(6,n)` 表整除。
-- **`^` 是乘方**，不是异或也不是合取。合取用 `&`。
-- **邻接即乘法**：`n(n+1)` 是乘积。要让 `f(x+1)` 当函数调用，把 `f` 放进 `functions`。
-- **定义域声明放进 `variables`**（如 `{"n": "int"}`），写成语句会被明确报错并提示正确做法。
-- `pi` / `e` 在符号层是数学常数；在 `variables` 里显式声明即可当普通变量用。
-  SMT 层没有精确超越常数，遇到会明确报错而不是静默处理。
-
-完整约定见 [`skills/math-rigor/references/notation.md`](skills/math-rigor/references/notation.md)。
-
----
-
-## 🧬 架构
-
-```
-server/math_rigor_server.py   23 个 MCP 工具的注册与 JSON 包装
-server/rigor/
-  ast_nodes.py    公式解析器（纯数学 / LaTeX / sympy 三写法，含 `|` 消歧）
-  translate.py    AST ↔ sympy ↔ z3 双向翻译，含类型推断
-  smt.py          SMT 证明引擎：Skolem 化、残数分情形、存在式改写、模型读取
-  logic.py        22 条推理规则的形状 + 语义检查，命题真值表
-  symbolic.py     sympy 符号运算、恒等式验证、高精度数值
-  verify.py       不等式 / 全称命题 / 归纳 / 极限 / 反例搜索 / 数论
-  proof.py        证明会话、步骤 DAG、审计、Markdown/LaTeX 导出
-skills/math-rigor/            流程 skill 与 4 份参考文件
-commands/                     /prove 与 /audit-proof
-tests/                        8 个测试模块（含真实 MCP stdio 端到端）
-tools/                        安装、冒烟测试、安装自检、文档生成
-```
-
-`skills/math-rigor/references/` 中的 `inference-rules.md` 与 `worked-examples.md`
-是**从代码与真实工具返回生成**的——改了工具行为就重新生成，文档永不与实现脱节。
-
----
-
-## 🧪 测试
+**机器上没有 git** —— pnpm 解析 `owner/repo` 这类 git 简写时要调用 `git ls-remote`，改填 tarball 地址（把 `main` 换成 commit SHA 可固定构建；同一地址也能填进 Desktop 对话框）。
 
 ```bash
-venv/bin/python tests/run_all.py          # 8 个模块，约 275 条断言
-venv/bin/python tools/smoke_test.py       # 服务器能否起来并证出一个已知真命题
-venv/bin/python tools/install_check.py    # 按 ZCode 的加载规则校验 skill / 命令 / 配置
+dsh plugin --profile web add https://codeload.github.com/bauerelizabeth07139/math-rigor/tar.gz/main
 ```
 
-CI（`.github/workflows/tests.yml`）在 **3 个系统 × 2 个 Python 版本** 上跑冒烟测试 +
-完整测试套件。当前 `main` 全绿。
+---
+
+## 首次运行：先建好 Python 环境
+
+**MCP 工具在 Python 环境存在之前不可用。** 两种建法：
+
+**A. 让插件自己建** —— loader row 里打开 `setup`；插件在加载阶段创建 `<home>/venv` 并执行 `pip install -r requirements.txt`（需要网络，通常数分钟，会阻塞加载到 `setupTimeoutMs` 为止）。
+
+```yaml
+- id: dsh-math-rigor
+  config:
+    setup: true
+```
+
+**B. 先跑离线脚本** —— `--home` 必须与插件实际使用的 `home` 一致：
+
+```text
+Windows:  py -3 tools/setup_dsh.py --home "%USERPROFILE%\.dsh\math-rigor"
+POSIX:    python3 tools/setup_dsh.py --home ~/.dsh/math-rigor
+```
+
+环境未就绪时，插件记一条 warning，注册 skill 与两个命令，**不挂载任何 MCP 工具**；两个命令以 error 返回，并给出需要执行的确切命令（含 `--home "<home>"`）和「重启 DSH profile」的提示。环境就绪后重启 profile。
+
+| 依赖 | 版本 |
+|---|---|
+| Python | 3.10+ |
+| `mcp` / `sympy` / `z3-solver` / `mpmath` | 2.2.0 / 1.14.0 / 5.1.0.0 / 1.3.0 |
+
+这四项就是 `requirements.txt` 声明的全部依赖。加载时插件要求 `<home>/venv` 的解释器 ≥ 3.10、`import mcp, sympy, z3, mpmath` 成功，且 `venv/.requirements.sha256` 与 `requirements.txt` 的 sha256 一致；任一不满足即视为环境不合格。
 
 ---
 
-## 🚧 已知边界
+## 配置
 
-- SMT 无法判定的命题（符号幂、超越函数、部分高阶非线性）返回 `inconclusive`。
-  对策是拆成可判定的引理，其余作为 `unchecked` 显式披露。
-- `verify_induction` 的归纳步若需要更强的归纳假设，会返回 `refuted` 并给出破坏它的 k。
-- 残数分情形子问题数上限 512，模数超过 64 的不参与自动分情形。
-- 全称量化的整数命题若是三次以上且含取模，单次判定可能需要数十秒。
+配置项来自 `index.js` 的 schemastery `Config`，写在 profile 的 loader row 里。
+
+| 键 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `home` | string | `$DSH_HOME/math-rigor`；`DSH_HOME` 未设置时 `~/.dsh/math-rigor` | 数据目录；venv 在 `<home>/venv`，证明会话在 `<home>/sessions` |
+| `python` | string | 空 | 显式指定解释器；空则探测 Windows 的 `python.exe`/`py`、其他平台的 `python3`/`python` |
+| `setup` | boolean | `false` | 加载时创建 venv 并安装依赖 |
+| `setupTimeoutMs` | number | `600000` | 1000–600000，步长 1；setup 总预算 |
+| `toolCallTimeoutMs` | number | `300000` | 1000–600000，步长 1；单次 MCP 工具调用超时 |
+
+在 loader row 里覆盖某一项：
+
+```yaml
+- id: dsh-math-rigor
+  config:
+    home: "D:/math-rigor-data"
+    setupTimeoutMs: 900000
+```
+
+`home` 会以环境变量 `MATH_RIGOR_HOME` 传给 MCP 服务器；`~` 与 `~/...` 展开为当前用户主目录。
 
 ---
 
-<div align="center">
+## 命令
 
-**∷ math-rigor ∷**
+| 命令 | 参数 | 行为 |
+|---|---|---|
+| `/prove` | `<mathematical proposition>` | 排入六阶段严格证明流程：形式化 → 策略 → 引理分解 → 逐步证明（每步机检）→ 机器审计 → 如实报告 |
+| `/audit-proof` | `<proof text or math-rigor session id>` | 排入证明审查流程：拆成步骤 DAG、逐条读 verdict、结构性审查、给出问题清单 |
 
-*「证明不是说服，而是可检查的结构。」*
+两者都**要求环境已就绪**，否则直接返回错误；参数为空时拒绝并提示用法。排入的消息以「Load the `math-rigor` skill before acting」开头，agent 先加载 skill 再按 `commands/*.md` 的正文执行。
 
-[MIT License](LICENSE) · by [bauerelizabeth07139](https://github.com/bauerelizabeth07139)
+---
 
-</div>
+## Skill
+
+bundle 自带 `math-rigor` skill（`skills/math-rigor/SKILL.md`），在证明、推导、恒等式/不等式验证、归纳、整除、反例搜索、证明审查类任务上触发，规定六阶段流程与结果语义，并附 4 份参考文件：`inference-rules.md`（22 条逻辑规则 + 19 种非逻辑理由）、`strategies.md`、`notation.md`、`worked-examples.md`。
+
+---
+
+## 工具总表
+
+`server/math_rigor_server.py` 共 23 个 `@server.tool` 注册。在 DSH 里调用请使用 `mcp__math_rigor__` 前缀后的完整名称。
+
+| 分组 | 工具 | 用途 |
+|---|---|---|
+| 会话 | `proof_workflow` | 返回流程阶段、判定词汇表与审计强制检查项 |
+| 会话 | `proof_start` | 开一个证明会话：登记问题、精确目标、每个符号的定义域 |
+| 会话 | `proof_add_given` | 登记题面给定的前提（不证明，审计追踪其仍为假设） |
+| 会话 | `proof_add_assumption` | 登记临时假设（之后必须由解消规则解除） |
+| 会话 | `proof_add_lemma` | 登记引理义务，或声明 `assumed=true` 并披露 |
+| 会话 | `proof_add_step` | 加一步并**立即机检**，返回 `verified`/`refuted`/`invalid`/`unchecked` |
+| 会话 | `proof_validate` | 审计整个证明：引用图、假设解除、引理、目标是否导出、机器覆盖率 |
+| 会话 | `proof_status` | 查看会话；空参则列出全部会话 |
+| 会话 | `proof_export` | 导出 markdown / LaTeX / JSON，含每步理由与审计判定 |
+| 逻辑 | `logic_check_step` | 单步推理：形状是否匹配规则 + 语义是否成立 |
+| 逻辑 | `logic_entails` | 前提是否蕴含结论，返回 `proven` 或带反例赋值的 `refuted` |
+| 逻辑 | `logic_truth_table` | 纯命题逻辑完全枚举（最多 10 个变量） |
+| 逻辑 | `logic_rules` | 列出全部推理规则（可按 propositional / predicate / equality 过滤） |
+| 验证器 | `verify_identity` | 两个表达式是否为同一个函数 |
+| 验证器 | `verify_inequality` | 带定义域的全局不等式（如 `x + 1/x >= 2`，x > 0） |
+| 验证器 | `verify_forall` | 任意全称命题：整除、奇偶、界、代数恒等式、量化逻辑 |
+| 验证器 | `verify_induction` | 归纳法：基例 + `k >= start & P(k) -> P(k+1)` |
+| 验证器 | `verify_limit` | 极限值（符号 + 数值；`oo` 表无穷，`+`/`-` 表单侧） |
+| 验证器 | `find_counterexample` | 找反例：先问 SMT，再扫显式区间，最后采样 |
+| 符号 | `symbolic_eval` | 单次符号运算：simplify/expand/factor/diff/integrate/limit/series/solve/sum/… |
+| 符号 | `symbolic_numeric` | 高精度求值，并报告结果是否为精确整数/有理数及精确分数 |
+| 符号 | `expr_normalise` | 规范化成 latex / text / sympy 形式，确认能解析 |
+| 数论 | `number_theory` | 精确整数运算：is_prime、factorize、totient、gcd/lcm、bezout、crt、legendre、jacobi、fibonacci、… |
+
+---
+
+## 故障排查
+
+**(a) 装完后没有 `mcp__math_rigor__*` 工具。** 环境没建好。按「首次运行」建 `<home>/venv` 后重启 profile；`setup: true` 时看日志里的 warning，其中带着具体原因（找不到 Python、`pip` 失败、超时等）。
+
+**(b) bundle 完全没加载。** 在 DSH 0.2.x 上，peer 版本范围不匹配会让 Cordis **整体跳过** bundle，而不是只丢工具。发布的 0.2.0 声明 `>=0.1.5-rc.1 <0.2.0-0 || >=0.2.0-rc.0 <0.3.0-0`（针对 `@deepseek-ai/dsh-commands`、`dsh-llm`、`dsh-mcp-client`、`dsh-skill`），先核对 DSH 版本是否落在范围内，别照着过期的范围说明排查。
+
+**(c) `pip` 需要网络。** 建 venv 和装依赖都要联网；走代理时在 setup 之前设置 `PIP_INDEX_URL`，例如 `$env:PIP_INDEX_URL = "https://your-mirror.example/simple"`。
+
+**(d) 重建环境。** 删掉 venv（`rm -rf "<home>/venv"`，或整个删掉 `<home>`）后重跑 `tools/setup_dsh.py --home "<home>"`。
+
+---
+
+## English
+
+### What it is
+
+`dsh-math-rigor` is a Cordis host plugin for DSH 0.2.x. It prepares an isolated Python 3.10+ virtual environment and launches `server/math_rigor_server.py` as a **stdio MCP server** through `@deepseek-ai/dsh-mcp-client`, so the server's 23 tools reach the agent as `mcp__math_rigor__<tool>`. It also registers one bundled skill (`math-rigor`) and two slash commands (`/prove`, `/audit-proof`).
+
+Its contract: `proven` / `refuted` / `inconclusive` are never conflated, and a proof audit separates `verified` / `sound_with_gaps` / `flawed`, reporting unproven steps instead of hiding them.
+
+### Install
+
+- **Desktop app:** Plugins → Add plugin → `https://github.com/bauerelizabeth07139/math-rigor`, then switch the new bundle on. The Desktop app boots the reserved `desktop` profile.
+- **CLI:** `dsh plugin --profile web add bauerelizabeth07139/math-rigor` — install into the profile you actually boot.
+- **No git on the machine:** pnpm resolves a git shorthand with `git ls-remote`, so use the tarball URL instead: `dsh plugin --profile web add https://codeload.github.com/bauerelizabeth07139/math-rigor/tar.gz/main` (pin a commit SHA in place of `main` for a fixed build). The same address works in the Desktop dialog.
+
+### First run
+
+The MCP tools are unavailable until the Python environment exists. Either set `setup: true` in the loader row's `config:` and let the plugin build `<home>/venv` and run `pip install -r requirements.txt` (network access, several minutes), or run the offline helper first:
+
+```text
+Windows:  py -3 tools/setup_dsh.py --home "%USERPROFILE%\.dsh\math-rigor"
+POSIX:    python3 tools/setup_dsh.py --home ~/.dsh/math-rigor
+```
+
+Until then the plugin logs a warning, registers the skill and the commands, and mounts no MCP tools; the commands answer with the exact command to run.
+
+Requirements: Python 3.10+, `mcp==2.2.0`, `sympy==1.14.0`, `z3-solver==5.1.0.0`, `mpmath==1.3.0`.
+
+### Configuration
+
+| Key | Type | Default | Notes |
+|---|---|---|---|
+| `home` | string | `$DSH_HOME/math-rigor`, else `~/.dsh/math-rigor` | venv at `<home>/venv`, sessions at `<home>/sessions` |
+| `python` | string | empty | explicit interpreter; empty probes `python.exe`/`py` on Windows, `python3`/`python` elsewhere |
+| `setup` | boolean | `false` | build the venv on load |
+| `setupTimeoutMs` | number | `600000` | 1000–600000 |
+| `toolCallTimeoutMs` | number | `300000` | 1000–600000 |
+
+```yaml
+- id: dsh-math-rigor
+  config:
+    setup: true
+```
+
+### Commands
+
+| Command | Input | Queues |
+|---|---|---|
+| `/prove` | `<mathematical proposition>` | the six-stage rigorous proof workflow, each step machine-checked as it is added |
+| `/audit-proof` | `<proof text or math-rigor session id>` | the proof-audit workflow: step DAG, per-step verdicts, structural review, ranked flaw list |
+
+Both require the environment to be ready; otherwise they return an error naming the setup command to run.
+
+### Skill and tools
+
+The bundled `math-rigor` skill carries the six-stage process and four reference files (`inference-rules.md`, `strategies.md`, `notation.md`, `worked-examples.md`). The 23 MCP tools, grouped: session/workflow `proof_workflow`, `proof_start`, `proof_add_given`, `proof_add_assumption`, `proof_add_lemma`, `proof_add_step`, `proof_validate`, `proof_status`, `proof_export`; logic `logic_check_step`, `logic_entails`, `logic_truth_table`, `logic_rules`; verifiers `verify_identity`, `verify_inequality`, `verify_forall`, `verify_induction`, `verify_limit`, `find_counterexample`; symbolic `symbolic_eval`, `symbolic_numeric`, `expr_normalise`; number theory `number_theory`. One-line purposes are in the table above.
+
+---
+
+## Legacy：ZCode 安装路径
+
+math-rigor 最早是为 ZCode 写的，仓库里仍保留那条链路的脚本；它不是 DSH 的安装路径，DSH 用户可忽略本节。
+
+| 入口 | 作用 |
+|---|---|
+| `install.ps1` / `install.sh` | Windows / macOS·Linux 安装：建 venv、装依赖、先自检服务器、再注册 MCP、复制 skill 与命令 |
+| `tools/install.py` | 安装主体：把 `mcp.servers.math-rigor` 写进 `~/.zcode/cli/config.json`；把 `skills/math-rigor/` 复制进 `~/.zcode/skills/`；把 `commands/*.md` 复制进 `~/.zcode/commands/`。`ZCODE_HOME` 可覆盖 `~/.zcode` |
+| `tools/install_check.py` | 按 ZCode 的加载规则校验 skill / 命令 / 配置 |
+| `tools/verify_deployment.py` | 按 ZCode 的实际使用方式核对部署后的配置 |
+| `tools/smoke_test.py` | 以 ZCode 的方式启动服务器并确认它能作答 |
+
+ZCode 侧与 DSH 侧共用同一个服务器、同一套工具与判定词汇。
+
+---
+
+## License
+
+[MIT](LICENSE) · by [bauerelizabeth07139](https://github.com/bauerelizabeth07139)

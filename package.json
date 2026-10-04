@@ -1,0 +1,72 @@
+{
+  "name": "dsh-math-rigor",
+  "version": "0.2.0",
+  "description": "Auditable mathematical proving for DeepSeek Harness: a local stdio MCP server with 23 tools, a bundled workflow skill and two slash commands. proven / refuted / inconclusive are never conflated, and unproven steps are reported, not hidden.",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    "locale",
+    "assets",
+    "server/math_rigor_server.py",
+    "server/rigor/*.py",
+    "skills",
+    "commands/*.md",
+    "requirements.txt",
+    "tools/setup_dsh.py",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "author": "bauerelizabeth07139",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bauerelizabeth07139/math-rigor.git"
+  },
+  "homepage": "https://github.com/bauerelizabeth07139/math-rigor#readme",
+  "bugs": {
+    "url": "https://github.com/bauerelizabeth07139/math-rigor/issues"
+  },
+  "icon": "./assets/icon.svg",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dsh-plugin",
+    "math",
+    "proof",
+    "theorem-proving",
+    "formal-verification",
+    "mcp",
+    "sympy",
+    "z3",
+    "skill"
+  ],
+  "engines": {
+    "node": ">=22",
+    "python": ">=3.10",
+    "dsh": ">=0.1.5-rc.1 <0.2.0-0 || >=0.2.0-rc.0 <0.3.0-0"
+  },
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": ">=3.18.2 <4.0.0"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": ">=4.0.2",
+    "@deepseek-ai/dsh-commands": ">=0.1.5-rc.1 <0.2.0-0 || >=0.2.0-rc.0 <0.3.0-0",
+    "@deepseek-ai/dsh-llm": ">=0.1.5-rc.1 <0.2.0-0 || >=0.2.0-rc.0 <0.3.0-0",
+    "@deepseek-ai/dsh-mcp-client": ">=0.1.5-rc.1 <0.2.0-0 || >=0.2.0-rc.0 <0.3.0-0",
+    "@deepseek-ai/dsh-skill": ">=0.1.5-rc.1 <0.2.0-0 || >=0.2.0-rc.0 <0.3.0-0"
+  }
+}
