@@ -16,6 +16,7 @@ MODULES = [
     "test_verify.py",
     "test_proof.py",
     "test_mcp_stdio.py",
+    "test_security.py",
 ]
 
 failures = []

@@ -159,6 +159,41 @@ bundle 自带 `math-rigor` skill（`skills/math-rigor/SKILL.md`），在证明�
 
 ---
 
+## 安全
+
+证明器的输入是数学表达式，所以"绝不用 `eval` 求值输入"是它的安全底线；写文件、起进程、联网
+同样有明确边界。这些不是声明，而是 `tests/test_security.py`（22 项检查）逐条读本包自己的
+文件来强制的事实，任何一条被越过都会直接失败：
+
+| 面 | 行为 |
+|---|---|
+| 进程 | 只起 Python:探测解释器的短进程 + stdio 上的证明服务器;**从不经过 shell**,因此没有任何值会被当作命令解析 |
+| 服务器环境 | 只给**一个**变量 `MATH_RIGOR_HOME`。Harness 的环境里还有模型 API key,服务器看不到 |
+| 写文件 | 全部落在插件自己的家目录 `$DSH_HOME/math-rigor`(venv、哈希标记、状态),不写 profile、不写工作目录 |
+| 读文件 | `$DSH_HOME`(来自环境)与交给工具的那份数学输入 |
+| 网络 | 只有一次:首次使用时 `<venv>/python -m pip install -r requirements.txt`。证明过程本身完全离线 |
+| 密钥 | 无 |
+| 动态代码 | 无 —— 输入由自带词法/语法分析器(`server/rigor/ast_nodes.py`)解析成 AST,再翻译成 SMT-LIB 交给 z3、或用 sympy 构造器建表达式;全程没有 `eval`/`exec`/`compile` 输入 |
+
+`requirements.txt` 里每个包都钉死到精确版本(`mcp==2.2.0`、`sympy==1.14.0`、
+`z3-solver==5.1.0.0`、`mpmath==1.3.0`),所以下载内容在下载之前就是可审计的;插件把该文件的
+SHA-256 记在 venv 旁的标记里,哈希不变就不再装。完整说明见 [SECURITY.md](SECURITY.md)。
+
+### 五级验证
+
+社区标准是"先审计、后五级验证":组合 → 启动冒烟 → 健康检查 → 全量启动 → 功能实测。
+前四级只说"能加载",第五级才说"真的证出来了"。本包在 `plugintest` profile 上的证据:
+
+| 级别 | 检查 | 结果 |
+|---|---|---|
+| L1 组合 | bundle 在组合树里正确挂载 | `dsh --profile plugintest --dump-config` → exit 0,树中出现 `dsh-math-rigor` |
+| L2 冒烟 | 入口模块按 loader 方式加载 | `index.js` 导入成功、配置 schema 解析通过 |
+| L3 健康 | 对发布文件做静态审计 | `python tests/test_security.py` → 22/22;`plugin_audit.py` → 0 条 high |
+| L4 全量启动 | 宿主半注册工具与 skill,并起 MCP 服务器 | `tests/test_mcp_stdio.py`(stdio 握手与 23 个工具) |
+| L5 功能实测 | 真的证明/证伪一条命题 | `tests/run_all.py` 全模块通过(parse/translate/smt/logic/symbolic/verify/proof/mcp) |
+
+---
+
 ## 故障排查
 
 **(a) 装完后没有 `mcp__math_rigor__*` 工具。** 环境没建好。按「首次运行」建 `<home>/venv` 后重启 profile；`setup: true` 时看日志里的 warning，其中带着具体原因（找不到 Python、`pip` 失败、超时等）。
