@@ -2,6 +2,8 @@
 
 # ∷ math-rigor ∷
 
+[![dsh.so risk](https://www.dsh.so/badge/math-rigor.svg)](https://www.dsh.so/artifact/math-rigor/)
+
 **可审计的数学证明工具链，作为 DSH 插件运行：本地 stdio MCP 服务器（23 个工具）+ 流程 skill + 两个 slash 命令**
 
 *Auditable mathematical proving for DeepSeek Harness: a local stdio MCP server (23 tools), a bundled workflow skill, and two slash commands.*
